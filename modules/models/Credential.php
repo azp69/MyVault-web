@@ -12,16 +12,16 @@
         private $url;
 
         public function __construct($connection) {
-            $this->$conn = $connection;
+            $this->conn = $connection;
         }
 
-        public function read() {
+        public function read($ownerId) {
             $query = 'SELECT 
                         c.id, c.ownerId, c.credentialDescription, c.username, c.pwd, c.iv, c.url
-                    FROM ' . $this->table;
+                    FROM ' . $this->table . ' as c WHERE ownerId = :id';
             $stmt = $this->conn->prepare($query);
 
-            $stmt->execute();
+            $stmt->execute(array('id' => $ownerId));
             return $stmt;
         }
     }
