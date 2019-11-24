@@ -1,12 +1,12 @@
 <?php 
 
-include_once '../modules/database/Database.php';
+include_once '../modules/database/Db.php';
 include_once '../modules/models/Credential.php';
 
 function createCredential($data) {
     
     try {
-        $database = new Database();
+        $database = new Db();
         $db = $database->connect();
         $credential = new Credential($db);
         $credential->set($data);

@@ -34,15 +34,19 @@ function sendBadRequestResponse() {
 }
 
 function sendCredentials($ownerId) {
+    header('Content-Type: application/json');
     echo readCredentails($ownerId);
 }
 
 function createCred($data) {
     try {
         header(http_response_code(201));
-        echo createCredential($data);
+        header('Content-Type: application/json');
+        $dataToSend = createCredential($data);
+        echo $dataToSend;
     } catch (Exception $err) {
         header(http_response_code(400));
+        header('Content-Type: application/json');
         echo json_encode(array('message' => $err->getMessage()));
     }
 }
