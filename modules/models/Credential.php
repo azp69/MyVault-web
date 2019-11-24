@@ -16,13 +16,16 @@
         }
 
         public function read($ownerId) {
+
+            $oid = mysqli_real_escape_string($this->conn, $ownerId);
+
             $query = 'SELECT 
                         c.id, c.ownerId, c.credentialDescription, c.username, c.pwd, c.iv, c.url
-                    FROM ' . $this->table . ' as c WHERE ownerId = :id';
-            $stmt = $this->conn->prepare($query);
+                    FROM ' . $this->table . ' as c WHERE ownerId=' . $oid;
 
-            $stmt->execute(array('id' => $ownerId));
-            return $stmt;
+            $result = $this->conn->query($query);
+
+            return $result;
         }
 
         public function set($data) {
@@ -43,28 +46,23 @@
 
         public function create() {
             try {
+
+                $oid = mysqli_real_escape_string($this->conn, $this->ownerId);
+                $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
+                $user = mysqli_real_escape_string($this->conn, $this->username);
+                $pass = mysqli_real_escape_string($this->conn, $this->pwd);
+                $ivv = mysqli_real_escape_string($this->conn, $this->iv);
+                $addr = mysqli_real_escape_string($this->conn, $this->url);
+
                 $query = 'INSERT INTO ' . $this->table .
                         ' (ownerId, credentialDescription, username, pwd, iv, url)' .
-                    ' VALUES (:ownerId, :credentialDescription, :username, :pwd, :iv, :url)';
-                $stmt = $this->conn->prepare($query);
+                    " VALUES ('$oid', '$desc', '$user', '$pass', '$ivv', '$addr')";
 
-                /* $stmt->bindValue(':ownerId', $this->ownerId);
-                $stmt->bindValue(':credentialDescription', $this->credentialDescription);
-                $stmt->bindValue(':username', $this->username);
-                $stmt->bindValue(':pwd', $this->pwd);
-                $stmt->bindValue(':iv', $this->iv);
-                $stmt->bindValue(':url', $this->url); */
-
-                $success = $stmt->execute(array(
-                    ':ownerId' => $this->ownerId,
-                    ':credentialDescription' => $this->credentialDescription,
-                    ':username' => $this->username,
-                    ':pwd' => $this->pwd,
-                    ':iv' => $this->iv,
-                    ':url' => $this->url
-                ));
-
-                return $success;
+                if ($this->conn->query($query) === TRUE) {
+                    return true;
+                } else {
+                    throw new Exception($this->conn->error);
+                }
             } catch(Exception $e) {
                 throw $e;
             }
