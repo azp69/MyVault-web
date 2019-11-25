@@ -3,18 +3,18 @@
 include_once '../../modules/database/Db.php';
 include_once '../../modules/models/Credential.php';
 
-function readCredentails($ownerId) {
+function readCredentails($usertoken) {
     $database = new Db();
     $db = null;
-    //try {
+    try {
         $db = $database->connect();
-    //} catch (Exception $e) {
-        //throw $e;
-    //}
+    } catch (Exception $e) {
+        throw $e;
+    }
 
     $credential = new Credential($db);
 
-    $result = $credential->read($ownerId);
+    $result = $credential->read($usertoken);
     $row_count = $result->num_rows;
 
     if ($row_count > 0) {

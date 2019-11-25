@@ -17,8 +17,8 @@ class Db {
 
     public function connect() {
         $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
-        if ($conn->connect_error) {
-            throw new Exception($conn->connect_error);
+        if ($this->conn->connect_error) {
+            throw new Exception($this->conn->connect_error);
         }
         return $this->conn;
     }

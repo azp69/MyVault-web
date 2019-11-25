@@ -8,17 +8,20 @@ header('Conten-Type: application/json');
 
 // usertokenin validointi
 
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     sendBadRequestResponse("not a post, but " . $_SERVER['REQUEST_METHOD']);
 } else {
+    // otetaan kiinni pyynnön body
     $data = json_decode(file_get_contents('php://input'), true);
 
+    // ohjataan pyyntö
     switch(strtoupper($data['requestType'])) {
         case 'READ':
-            sendCredentials($data['requestData']['ownerId']);
+            sendCredentials($data['usertoken']);
             break;
         case 'CREATE':
-            createCred($data['requestData']);
+            createCred($data['usertoken'], $data['requestData']);
             break;
         case 'UPDATE':
             break;
@@ -41,8 +44,9 @@ function sendCredentials($ownerId) {
     try {
         header('Content-Type: application/json');
         echo readCredentails($ownerId);
-    } catch (Exception $err) {
-        sendBadRequestResponse($err->getMessage());
+    } catch (Exception $e) {
+        // message vain debuggausta varten => TODO: poista
+        sendBadRequestResponse($e->getMessage());
     }
 }
 
@@ -52,7 +56,8 @@ function createCred($data) {
         header('Content-Type: application/json');
         $dataToSend = createCredential($data);
         echo $dataToSend;
-    } catch (Exception $err) {
-        sendBadRequestResponse($err->getMessage());
+    } catch (Exception $e) {
+        // message vain debuggausta varten => TODO: poista
+        sendBadRequestResponse($e->getMessage());
     }
 }
