@@ -1,13 +1,15 @@
 <?php 
 
-include_once './functions/read.php';
-include_once './functions/create.php';
+include_once './functions/readCredential.php';
+include_once './functions/createCredential.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Conten-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    sendBadRequestResponse();
+// usertokenin validointi
+
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    sendBadRequestResponse("not a post, but " . $_SERVER['REQUEST_METHOD']);
 } else {
     $data = json_decode(file_get_contents('php://input'), true);
 
@@ -23,19 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         case 'DELETE':
             break;
         default:
-            sendBadRequestResponse();
+            sendBadRequestResponse("default");
             break;
     }
 }
 
-function sendBadRequestResponse() {
+function sendBadRequestResponse($message) {
     header(http_response_code(400));
+    header('Content-Type: application/json');
+    echo json_encode(array('message' => $message));
     exit();
 }
 
 function sendCredentials($ownerId) {
-    header('Content-Type: application/json');
-    echo readCredentails($ownerId);
+    try {
+        header('Content-Type: application/json');
+        echo readCredentails($ownerId);
+    } catch (Exception $err) {
+        sendBadRequestResponse($err->getMessage());
+    }
 }
 
 function createCred($data) {
@@ -45,8 +53,6 @@ function createCred($data) {
         $dataToSend = createCredential($data);
         echo $dataToSend;
     } catch (Exception $err) {
-        header(http_response_code(400));
-        header('Content-Type: application/json');
-        echo json_encode(array('message' => $err->getMessage()));
+        sendBadRequestResponse($err->getMessage());
     }
 }

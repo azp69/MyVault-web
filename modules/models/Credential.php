@@ -68,4 +68,8 @@
             }
             
         }
+
+        public function update(Credential $update) {
+            
+        }
     }

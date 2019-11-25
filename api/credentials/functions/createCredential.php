@@ -1,7 +1,7 @@
 <?php 
 
-include_once '../modules/database/Db.php';
-include_once '../modules/models/Credential.php';
+include_once '../../modules/database/Db.php';
+include_once '../../modules/models/Credential.php';
 
 function createCredential($data) {
     

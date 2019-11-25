@@ -8,7 +8,7 @@ class Db {
     private $conn;
 
     public function __construct() {
-        include('../modules/database/dbCredentials.php');
+        include('../../modules/database/dbCredentials.php');
         $this->host = $h;
         $this->db_name = $n;
         $this->username = $u;
