@@ -2,6 +2,8 @@
 
 include_once './functions/readCredential.php';
 include_once './functions/createCredential.php';
+include_once './functions/updateCredential.php';
+include_once './functions/deleteCredential.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Conten-Type: application/json');
@@ -10,7 +12,7 @@ header('Conten-Type: application/json');
 
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    sendBadRequestResponse("not a post, but " . $_SERVER['REQUEST_METHOD']);
+    sendBadRequestResponse("All requests must be POSTs");
 } else {
     // otetaan kiinni pyynnön body
     $data = json_decode(file_get_contents('php://input'), true);
@@ -24,8 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             createCred($data['usertoken'], $data['requestData']);
             break;
         case 'UPDATE':
+            updateCred($data['usertoken'], $data['requestData']);
             break;
         case 'DELETE':
+            deleteCred($data['usertoken'], $data['requestData']['id']);
             break;
         default:
             sendBadRequestResponse("default");
@@ -40,21 +44,45 @@ function sendBadRequestResponse($message) {
     exit();
 }
 
-function sendCredentials($ownerId) {
+function sendCredentials($usertoken) {
     try {
         header('Content-Type: application/json');
-        echo readCredentails($ownerId);
+        echo readCredentails($usertoken);
     } catch (Exception $e) {
         // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
     }
 }
 
-function createCred($data) {
+function createCred($usertoken, $data) {
     try {
         header(http_response_code(201));
         header('Content-Type: application/json');
-        $dataToSend = createCredential($data);
+        $dataToSend = createCredential($usertoken, $data);
+        echo $dataToSend;
+    } catch (Exception $e) {
+        // message vain debuggausta varten => TODO: poista
+        sendBadRequestResponse($e->getMessage());
+    }
+}
+
+function updateCred($usertoken, $data) {
+    try {
+        header(http_response_code(200));
+        header('Content-Type: application/json');
+        $dataToSend = updateCredential($usertoken, $data);
+        echo $dataToSend;
+    } catch (Exception $e) {
+        // message vain debuggausta varten => TODO: poista
+        sendBadRequestResponse($e->getMessage());
+    }
+}
+
+function deleteCred($usertoken, $data) {
+    try {
+        header(http_response_code(201));
+        header('Content-Type: application/json');
+        $dataToSend = deleteCredential($usertoken, $data);
         echo $dataToSend;
     } catch (Exception $e) {
         // message vain debuggausta varten => TODO: poista
