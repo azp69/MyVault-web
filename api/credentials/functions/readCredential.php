@@ -6,7 +6,7 @@ include_once '../../modules/models/Credential.php';
 /**
  * Muodostaa yhteyden tietokantaan, hakee usertokenin perusteella ownerin credentiaalit kannasta ja palauttaa ne JSON-objektina
  */
-function readCredentails($usertoken) {
+function readCredentials($usertoken) {
 
     // tarkistetaan, että usertoken on asetettu
     // tämä varmaan tulee muutoin tarkistettavaksi
@@ -34,6 +34,7 @@ function readCredentails($usertoken) {
                     'credentialDescription' => $credentialDescription,
                     'username' => $username,
                     'pwd' => $pwd,
+                    'salt' => $salt,
                     'iv' => $iv,
                     'url' => $url
                 );

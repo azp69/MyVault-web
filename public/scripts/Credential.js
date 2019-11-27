@@ -4,6 +4,7 @@ class Credential {
     credentialDescription;
     username;
     password;
+    salt;
     iv;
     url;
     
@@ -27,6 +28,7 @@ class Credential {
         this.credentialDescription = data.credentialDescription;
         this.username = data.username;
         this.password = data.password;
+        this.salt = data.salt;
         this.iv = data.iv;
         this.url = data.url;
     }

@@ -47,7 +47,7 @@ function sendBadRequestResponse($message) {
 function sendCredentials($usertoken) {
     try {
         header('Content-Type: application/json');
-        echo readCredentails($usertoken);
+        echo readCredentials($usertoken);
     } catch (Exception $e) {
         // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
