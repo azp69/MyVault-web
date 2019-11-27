@@ -1,0 +1,92 @@
+/**
+<color name="colorPrimary">#192E42</color>
+    <color name="colorPrimaryDark">#2A445C</color>
+    <color name="colorAccent">#1B9CD8</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="colorGrey">#7E7E7E</color>
+*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: rgb(35,35,35);
+    color: white;
+    margin: 0;
+}
+
+.jumbotron {
+    background: #192E42;
+    margin-bottom: 0;
+}
+
+.jumbo-container {
+    padding: 0 10px;
+}
+
+.overviewElement {
+    padding: 1rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+
+.usernameLabel {
+    color: #1B9CD8;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #192E42;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #1B9CD8;
+}
+
+#sidebar ul p {
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #1B9CD8;
+}
+#sidebar ul li a:hover {
+    background: #192E42;
+    color: #1B9CD8;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #1B9CD8;
+    
+}
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #192E42;
+}
