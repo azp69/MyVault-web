@@ -1,0 +1,24 @@
+<html>
+<head>
+<script src="../script/aes.js"></script>
+<script src="../script/pbkdf2.js"></script>
+<script src="../script/mode-ecb.js"></script>
+<script src="../script/sha256.js"></script>
+<script src="../script/aes_luokka.js"></script>
+<script>
+var suola = "adQWEasdfjhaGTR123";
+var salasana = "asd";
+
+suola = "246593028063F7C9E7C0AA1D2F4A52F9";
+var iv = AES.generateIv();
+var key = AES.generateKey(suola, salasana);
+// key = CryptoJS.enc.Hex.parse("111389B842CCC876C3FEFB6CED3DF85A1CED8F92BB251D13E81B3F6692827090");
+iv = "192921EA010B37CA69E9369F195C378F";
+
+
+// var salattuviesti = AES.encrypt(key, iv, "salainen viesti");
+var y = "p3wqOXS8qQV4QgT26v59sw==";
+var purettuviesti = AES.decrypt(key, iv, y);
+</script>
+</head>
+
