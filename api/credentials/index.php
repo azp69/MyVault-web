@@ -6,7 +6,7 @@ include_once './functions/updateCredential.php';
 include_once './functions/deleteCredential.php';
 
 header('Access-Control-Allow-Origin: *');
-header('Conten-Type: application/json');
+header('Content-Type: application/json');
 
 // usertokenin validointi
 

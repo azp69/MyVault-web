@@ -11,6 +11,7 @@
         private $salt;
         private $iv;
         private $url;
+        private $checkForLastActivity = false;
 
         public function __construct($connection) {
             $this->conn = $connection;
@@ -172,23 +173,22 @@
         private function fetchOwnerId($usertoken) {
             $token = mysqli_real_escape_string($this->conn, $usertoken);
             $query = 'SELECT id, last_activity FROM vaultOwner WHERE usertoken="'. $token . '"';
-
             $result = $this->conn->query($query);
 
             if (!$result->error && $result->num_rows == 1) {
                 $row = $result->fetch_assoc();
-                return $row['id'];
 
-
-
-
+                if ($this->checkForLastActivity == false)
+                {
+                    return $row['id'];
+                }
 
                 // tarkistetaan, onko token edelleen validi, ja päivitetään last_activityä jos on
                 if ($this->validateAndUpdateLastActivity($row['id'], $row['last_activity'])) { 
                     return $row['id'];
                 } else { 
-                    throw new Exception("Invalid usertoken in Credential.fetchOwnerId"); 
-                }
+                    // throw new Exception("Invalid usertoken in Credential.fetchOwnerId"); 
+                 }
             } else { 
                 throw new Exception("Invalid usertoken in Credential.fetchOwnerId"); 
             }
