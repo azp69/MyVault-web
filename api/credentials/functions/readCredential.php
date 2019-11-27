@@ -6,11 +6,11 @@ include_once '../../modules/models/Credential.php';
 /**
  * Muodostaa yhteyden tietokantaan, hakee usertokenin perusteella ownerin credentiaalit kannasta ja palauttaa ne JSON-objektina
  */
-function readCredentails($usertoken) {
+function readCredentials($usertoken) {
 
     // tarkistetaan, että usertoken on asetettu
     // tämä varmaan tulee muutoin tarkistettavaksi
-    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in readCredentails.readCredentails'); }
+    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in readCredentials.readCredentials'); }
 
     try {
         // luodaan yhteys kantaan
@@ -29,7 +29,7 @@ function readCredentails($usertoken) {
     
             while ($row = $result->fetch_assoc()) {
                 extract($row);
-                $credelntialItem = array(
+                $credentialItem = array(
                     'id' => $id,
                     'credentialDescription' => $credentialDescription,
                     'username' => $username,
@@ -37,7 +37,7 @@ function readCredentails($usertoken) {
                     'iv' => $iv,
                     'url' => $url
                 );
-                array_push($credentialArray['data'], $credelntialItem);
+                array_push($credentialArray['data'], $credentialItem);
             }
             return json_encode($credentialArray);
         } else {

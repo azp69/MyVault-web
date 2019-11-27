@@ -6,7 +6,7 @@ include_once './functions/updateCredential.php';
 include_once './functions/deleteCredential.php';
 
 header('Access-Control-Allow-Origin: *');
-header('Conten-Type: application/json');
+header('Content-Type: application/json');
 
 // usertokenin validointi
 
@@ -47,7 +47,7 @@ function sendBadRequestResponse($message) {
 function sendCredentials($usertoken) {
     try {
         header('Content-Type: application/json');
-        echo readCredentails($usertoken);
+        echo readCredentials($usertoken);
     } catch (Exception $e) {
         // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
