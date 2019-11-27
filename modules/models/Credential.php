@@ -8,6 +8,7 @@
         private $credentialDescription;
         private $username;
         private $password;
+        private $salt;
         private $iv;
         private $url;
         private $checkForLastActivity = false;
@@ -24,7 +25,7 @@
             $oid = $this->fetchOwnerId($usertoken);
             // tehdään query kantaan
             $query = 'SELECT 
-                        c.id, c.ownerId, c.credentialDescription, c.username, c.pwd, c.iv, c.url
+                        c.id, c.ownerId, c.credentialDescription, c.username, c.pwd, c.salt, c.iv, c.url
                     FROM ' . $this->table . ' as c WHERE ownerId=' . $oid;
             $result = $this->conn->query($query);
 
@@ -45,6 +46,7 @@
                 $this->credentialDescription = $data['credentialDescription'];
                 $this->username = $data['username'];
                 $this->pwd = $data['pwd'];
+                $this->salt = $dat['salt'];
                 $this->iv = $data['iv'];
                 $this->url = $data['url'];
             } else {
@@ -62,12 +64,13 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
+                $salt = mysql_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
                 $query = 'INSERT INTO ' . $this->table .
-                        ' (ownerId, credentialDescription, username, pwd, iv, url)' .
-                    " VALUES ('$oid', '$desc', '$user', '$pass', '$ivv', '$addr')";
+                        ' (ownerId, credentialDescription, username, pwd, salt, iv, url)' .
+                    " VALUES ('$oid', '$desc', '$user', '$pass', '$salt', '$ivv', '$addr')";
 
                 // TODO: palauta credentiaali clientille
 
@@ -101,12 +104,13 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
+                $salt = mysql_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
                 // tehdään query kantaan ja palautetaan sen antama boolean
                 $query = "UPDATE $this->table " . 
-                        "SET credentialDescription='$desc', username='$user', pwd='$pass', iv='$ivv', url='$addr' " .
+                        "SET credentialDescription='$desc', username='$user', pwd='$pass', salt='$salt' iv='$ivv', url='$addr' " .
                         "WHERE id='$id'";
                 if ($this->conn->query($query)) { 
                     return true; 
@@ -181,7 +185,7 @@
 
                 // tarkistetaan, onko token edelleen validi, ja päivitetään last_activityä jos on
                 if ($this->validateAndUpdateLastActivity($row['id'], $row['last_activity'])) { 
-                    return $row['id']; 
+                    return $row['id'];
                 } else { 
                     // throw new Exception("Invalid usertoken in Credential.fetchOwnerId"); 
                  }
@@ -210,7 +214,7 @@
             } else {
                 // muutoin päivitetään ajankohtaa kannassa ja palautetaan siitä saatava boolean 
                 // (jos päivitys ei onnistu niin ei varmaan sitten kannata antaa tehdä mitään)
-                $query = 'UPDATE vaultowner SET last_activity=NOW() WHERE id="' . $id . '"';
+                $query = 'UPDATE vaultOwner SET last_activity=NOW() WHERE id="' . $id . '"';
                 return $this->conn->query($query);
             }
         }

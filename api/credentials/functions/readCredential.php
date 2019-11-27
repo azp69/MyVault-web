@@ -34,6 +34,7 @@ function readCredentials($usertoken) {
                     'credentialDescription' => $credentialDescription,
                     'username' => $username,
                     'pwd' => $pwd,
+                    'salt' => $salt,
                     'iv' => $iv,
                     'url' => $url
                 );
