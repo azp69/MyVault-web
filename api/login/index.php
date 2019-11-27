@@ -45,11 +45,17 @@
         {
             $usertoken = generateUserToken($result);
             echo json_encode(array("usertoken" => $usertoken));
+            $data = json_decode($result, TRUE);
+            $userid = $data["id"];
+            $owner->getData($userid);
+            $owner->setUsertoken($usertoken);
         }
         else
         {
             echo json_encode(array("message" => "Failed login"));
+            exit();
         }
+
         
 
     }

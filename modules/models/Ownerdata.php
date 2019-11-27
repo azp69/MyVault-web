@@ -14,18 +14,67 @@
             $this->conn = $connection;
         }
 
+
+        public function setId($id)
+        {
+            $this->id = $id;
+        }
+
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        public function getUsername()
+        {
+            return $this->username;
+        }
+
+        public function setUsertoken($token)
+        {
+            $query = 'UPDATE ' . $this->table .' SET usertoken="'. $token .'" WHERE id=' . $this->id;
+            try 
+            {
+                    if ($this->conn->query($query) === TRUE) 
+                    {
+                        $this->usertoken = $token;
+                    }
+                    else
+                    {
+                        echo json_encrypt(array("message" => $conn->error));
+                    }
+            }
+            catch (Exception $e)
+            {
+                echo "Virhe";
+                return false;
+            }
+        }
+
         // Hakee käyttäjän tiedot kannasta ID:llä
-        public static function getData($id)
+        public function getData($id)
         {
             $query = 'SELECT 
                         o.id, o.username, o.pwd, o.usertoken, o.last_activity
                     FROM ' . $this->table . ' as o WHERE id=' . $id;
-            $result = $this->conn->query($query);
-
-            if (!$result->error) { 
-                return $result; 
-            } else {
-                throw new Exception($result->error);
+            try {
+                $result = $this->conn->query($query);
+                if (mysqli_num_rows($result) > 0)
+                {
+                    $data = mysqli_fetch_assoc($result);
+                    
+                    $this->id = $data['id'];
+                    $this->username = $data['username'];
+                    $this->password = $data['pwd'];
+                    $this->usertoken = $data['usertoken'];
+                    $this->last_activity = $data['last_activity'];
+                    return true;
+                }
+            }
+            catch (Exception $e)
+            {
+                echo "Virhe";
+                return false;
             }
         }
 
@@ -63,5 +112,10 @@
             {
                 echo $e->getMessage();
             }
+        }
+
+        public function updateUserToken($usertoken)
+        {
+
         }
     }
