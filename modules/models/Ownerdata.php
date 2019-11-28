@@ -69,7 +69,7 @@
                     
                     $this->id = $data['id'];
                     $this->username = $data['username'];
-                    $this->password = $data['pwd'];
+                    $this->pwd = $data['pwd'];
                     $this->usertoken = $data['usertoken'];
                     $this->last_activity = $data['last_activity'];
                     return true;

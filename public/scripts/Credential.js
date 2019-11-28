@@ -27,7 +27,7 @@ class Credential {
         this.ownerId = data.ownerId;
         this.credentialDescription = data.credentialDescription;
         this.username = data.username;
-        this.password = data.password;
+        this.password = data.pwd;
         this.salt = data.salt;
         this.iv = data.iv;
         this.url = data.url;

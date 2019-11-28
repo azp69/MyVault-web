@@ -95,7 +95,11 @@ ul ul a {
     background: #192E42;
 }
 
-.modal-backgdrop
+.modal-content
+{
+    background-color: #353535 !important;
+}
+.modal-header
 {
     background-color: #192E42 !important;
 }
