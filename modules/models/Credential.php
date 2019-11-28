@@ -7,7 +7,7 @@
         private $ownerId;
         private $credentialDescription;
         private $username;
-        private $password;
+        private $pwd;
         private $salt;
         private $iv;
         private $url;

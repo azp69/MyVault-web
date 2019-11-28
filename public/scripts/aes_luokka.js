@@ -1,4 +1,3 @@
-    
     class AES
     {
         static encrypt (key, iv, message) {
@@ -20,7 +19,7 @@
         }
 
         static generateKey (salt, passPhrase) {
-            var key = CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(suola), { keySize: 256/32, hasher: CryptoJS.algo.SHA256, iterations: 1000 });
+            var key = CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), { keySize: 256/32, hasher: CryptoJS.algo.SHA256, iterations: 1000 });
             // FOR DEBUG ONLY
             console.log("GENERATED KEY:" + key);
             return key;

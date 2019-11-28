@@ -1,4 +1,5 @@
 let credentials = [];
+let masterPass = null;
 let userToken = null;
 
 $(() => {
@@ -53,6 +54,20 @@ createCredentialOverviewElement = (cred) => {
     element.click(function()
     {
         $("#detailsDialog").modal();
+        
+        $('#detailsDialogUsernameInput').val(cred.username);
+        $('#detailsDialogDescriptionInput').val(cred.credentialDescription);
+
+        var key = AES.generateKey(cred.salt, "asd");
+        var purettu = AES.decrypt(key, cred.iv, cred.password);
+
+        $('#detailsDialogPasswordInput').val(purettu);
+        // $('#detailsDialogPasswordInput').val(cred.password);
+
+        console.log("PASSWORD:" + purettu);
+        console.log("SALT:" + cred.salt);
+        console.log("IV:" + cred.iv);
+        
     });
 
     return element;
@@ -73,4 +88,6 @@ function getCookie(cname) {
     }
     return "";
   }
+
+  
   
