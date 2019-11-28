@@ -3,10 +3,10 @@
 
     function generateUserToken($ownerData)
     {
-        $data = json_decode($ownerData, TRUE);
-        $userid = $data["id"];
-        $pwd = $data["password"];
-        $username = $data["username"];
+        
+        $userid = $ownerData->getId();
+        $pwd = $ownerData->getPassword();
+        $username = $ownerData->getUsername();
 
 
         $salt = "qwerty"; // HOX!!!

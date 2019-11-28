@@ -38,16 +38,18 @@
         $db = $database->connect();
 
         $owner = new Ownerdata($db);
-        $result = $owner->checkLogin($username, $password);
+
+        $success = $owner->getData($username, $password);
+
+        // $result = $owner->checkLogin($username, $password);
         
         // echo $result;
-        if ($result != null)
+        if ($success == true)
         {
-            $usertoken = generateUserToken($result);
+            $usertoken = generateUserToken($owner);
+
             echo json_encode(array("usertoken" => $usertoken));
-            $data = json_decode($result, TRUE);
-            $userid = $data["id"];
-            $owner->getData($userid);
+            
             $owner->setUsertoken($usertoken);
         }
         else

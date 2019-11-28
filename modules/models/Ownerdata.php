@@ -34,6 +34,11 @@
             return $this->username;
         }
 
+        public function getPassword()
+        {
+            return $this->pwd;
+        }
+        
         public function setUsertoken($token)
         {
             $query = 'UPDATE ' . $this->table .' SET usertoken="'. $token .'" WHERE id=' . $this->id;
@@ -55,12 +60,12 @@
             }
         }
 
-        // Hakee käyttäjän tiedot kannasta ID:llä
-        public function getData($id)
+        // Hakee käyttäjän tiedot kannasta userilla ja passulla
+        public function getData($username, $password)
         {
             $query = 'SELECT 
                         o.id, o.username, o.pwd, o.usertoken, o.last_activity
-                    FROM ' . $this->table . ' as o WHERE id=' . $id;
+                    FROM ' . $this->table . ' as o WHERE username="' . $username . '" AND pwd="' . $password .'"';
             try {
                 $result = $this->conn->query($query);
                 if (mysqli_num_rows($result) > 0)
@@ -80,46 +85,5 @@
                 echo "Virhe";
                 return false;
             }
-        }
-
-        public function checkLogin($username, $password)
-        {
-            $suola = "fsBd7ASDaigfDDds789sdf!";
-
-            $query = 'SELECT 
-                        o.id, o.username, o.pwd, o.usertoken, o.last_activity
-                    FROM ' . $this->table . ' as o WHERE username="' . $username . '" AND pwd="' . $password .'"';
-            try
-            {
-                $result = $this->conn->query($query);
-                if (mysqli_num_rows($result) > 0)
-                {
-                    $data = mysqli_fetch_assoc($result);
-
-                    $userid = $data['id'];
-                    $usertoken = $data['usertoken'];
-                    $lastActivity = $data['last_activity'];
-                    $password = $data['pwd'];
-                    $username = $data['username'];
-    
-                    $arr = json_encode(array('id' => $userid, 'usertoken' => $usertoken, 'username' => $username, 'password' => $password));
-                    return $arr;
-                }
-                else
-                {
-                    return null;
-                }
-                
-
-            }
-            catch (Exception $e)
-            {
-                echo $e->getMessage();
-            }
-        }
-
-        public function updateUserToken($usertoken)
-        {
-
         }
     }
