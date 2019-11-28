@@ -47,6 +47,8 @@ class Credential {
             error: (jqXhr, textStatus, errorMessage) => {
                 console.log(textStatus);
                 console.log(errorMessage);
+                console.log("Bad usertoken?");
+                login();
                 return null;
             }
         });
