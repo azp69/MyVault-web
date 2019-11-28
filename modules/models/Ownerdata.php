@@ -123,7 +123,9 @@
 
         }
 
-        // Hakee käyttäjän tiedot kannasta ID:llä
+        /**
+         * asettaa uuden käyttäjän usernamen ja passwordin
+         */
         public function setData($username, $password)
         {
             if (!isset($username) || !isset($password)) {
@@ -134,7 +136,12 @@
             $this->password = $password;
         }
 
+        /**
+         * vie uuden käyttäjän tietokantaan
+         */
         public function create() {
+            // ??TODO: tarkistus, onko käyttäjä jo kannassa??
+
             $user = mysqli_real_escape_string($this->conn, $this->username);
             $pass = mysqli_real_escape_string($this->conn, $this->password);
 

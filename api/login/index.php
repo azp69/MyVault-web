@@ -69,7 +69,11 @@
         $db = $database->connect();
 
         $owner = new Ownerdata($db);
+        // asetetaan username ja password
         $owner->setData($username, $password);
+        // viedään käyttäjä kantaan
+        $owner->create();
+        // TODO: generoidaan token ja lähetetään se clientille tai ilmoitetaan rekisteröinnin epäonnistumisesta
     }
 
 ?>
