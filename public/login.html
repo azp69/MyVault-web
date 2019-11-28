@@ -1,0 +1,57 @@
+<script>
+$('#loginForm').submit(function( event )
+{
+    event.preventDefault();
+    
+    var o = new Object();
+    o.requestType = "LOGIN";
+    o.username = $('#usernameInput').val();
+    o.password = $('#passwordInput').val();
+    
+
+    // alert(JSON.stringify(o));
+
+    $.ajax({
+        url : "api/login/index.php",
+        data : JSON.stringify(o),
+        dataType : 'json',
+        contentType : 'application/json',
+        type : 'POST'
+        }).done(function(result) 
+        {
+            // var obj = JSON.parse(result);
+            if (result.message)
+            {
+                alert(result.message);
+            }
+            else if(result.usertoken)
+            {
+                document.cookie = "usertoken=" + result.usertoken + "; path=/;";
+                userToken = result.usertoken;
+                console.log(userToken);
+                
+                $(".loginform").hide();
+                loadCreds();
+            }
+            
+        }).fail(function( result )
+        {
+            alert(result);
+        });
+
+});
+</script>
+<div class="loginform" style="padding-left:5em">
+        <h2>Please log in</h2>
+        <form id="loginForm">
+            <div class="form-group">
+              <label for="userinput">Username</label>
+              <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+              <label for="passwordinput">Password</label>
+              <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitLogin">Submit</button>
+          </form>
+</div>
