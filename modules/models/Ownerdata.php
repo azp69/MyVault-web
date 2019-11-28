@@ -15,7 +15,7 @@
         }
 
         // Hakee käyttäjän tiedot kannasta ID:llä
-        public static function getData($id)
+        public function getData($id)
         {
             $query = 'SELECT 
                         o.id, o.username, o.pwd, o.usertoken, o.last_activity
