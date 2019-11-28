@@ -1,6 +1,5 @@
 class Credential {
     id;
-    ownerId;
     credentialDescription;
     username;
     password;
@@ -12,19 +11,18 @@ class Credential {
         
     }
 
-    set(id, ownerId, credentialDescription, username, password, iv, url) {
+    set(id, credentialDescription, username, password, salt, iv, url) {
         this.id = id;
-        this.ownerId = ownerId;
         this.credentialDescription = credentialDescription;
         this.username = username;
         this.password = password;
+        this.salt = salt;
         this.iv = iv;
         this.url = url;
     }
 
     setFromData(data) {
         this.id = data.id;
-        this.ownerId = data.ownerId;
         this.credentialDescription = data.credentialDescription;
         this.username = data.username;
         this.password = data.pwd;

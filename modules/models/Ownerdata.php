@@ -8,7 +8,7 @@
         private $pwd;
         private $usertoken;
         private $last_activity;
-
+        
         public function __construct($connection)
         {
             $this->conn = $connection;
@@ -85,5 +85,46 @@
                 echo "Virhe";
                 return false;
             }
+        }
+
+        public function updateUserToken($usertoken)
+        {
+
+        }
+
+        /**
+         * asettaa uuden käyttäjän usernamen ja passwordin
+         */
+        public function setData($username, $password)
+        {
+            if (!isset($username) || !isset($password)) {
+                echo "error at Ownerdata.setData: invalid arguments";
+                return false;
+            }
+            $this->username = $username;
+            $this->password = $password;
+        }
+
+        /**
+         * vie uuden käyttäjän tietokantaan
+         */
+        public function create() {
+            // ??TODO: tarkistus, onko käyttäjä jo kannassa??
+
+            $user = mysqli_real_escape_string($this->conn, $this->username);
+            $pass = mysqli_real_escape_string($this->conn, $this->password);
+
+            $query = "INSERT INTO $this->table (username, pwd) VALUES ('$user' , '$pass')";
+
+            try {
+                if ($this->conn->query($query)) {
+                    $this->id = $this->conn->insert_id;
+                    return true;
+                }
+            } catch (Exception $e) {
+                echo "Virhe";
+                return false;
+            }
+
         }
     }

@@ -19,6 +19,9 @@
             case 'LOGIN':
                 handleLogin($data['username'], $data['password']);
             break;
+            case 'REGISTER':
+                handleUserRegistry($data['username'], $data['password']);
+            break;
             default:
                 sendBadRequestResponse("Bad request");
             break;
@@ -60,6 +63,19 @@
 
         
 
+    }
+
+
+    function handleUserRegistry($username, $password) {
+        $database = new Db();
+        $db = $database->connect();
+
+        $owner = new Ownerdata($db);
+        // asetetaan username ja password
+        $owner->setData($username, $password);
+        // viedään käyttäjä kantaan
+        $owner->create();
+        // TODO: generoidaan token ja lähetetään se clientille tai ilmoitetaan rekisteröinnin epäonnistumisesta
     }
 
 ?>
