@@ -11,11 +11,12 @@ class Credential {
         
     }
 
-    set(id, ownerId, credentialDescription, username, password, iv, url) {
+    set(id, credentialDescription, username, password, salt, iv, url) {
         this.id = id;
         this.credentialDescription = credentialDescription;
         this.username = username;
         this.password = password;
+        this.salt = salt;
         this.iv = iv;
         this.url = url;
     }

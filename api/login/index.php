@@ -19,6 +19,9 @@
             case 'LOGIN':
                 handleLogin($data['username'], $data['password']);
             break;
+            case 'REGISTER':
+                handleUserRegistry($data['username'], $data['password']);
+            break;
             default:
                 sendBadRequestResponse("Bad request");
             break;
@@ -58,6 +61,15 @@
 
         
 
+    }
+
+
+    function handleUserRegistry($username, $password) {
+        $database = new Db();
+        $db = $database->connect();
+
+        $owner = new Ownerdata($db);
+        $owner->setData($username, $password);
     }
 
 ?>
