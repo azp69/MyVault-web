@@ -26,6 +26,7 @@ $('#loginForm').submit(function( event )
             }
             else if(result.usertoken)
             {
+                document.cookie = "usertoken=" + result.usertoken + "; path=/;";
                 userToken = result.usertoken;
                 console.log(userToken);
                 
