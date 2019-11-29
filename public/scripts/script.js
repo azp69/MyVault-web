@@ -22,18 +22,21 @@ login = () =>
 
 loadCreds = () =>
 {
-    $('#appContent').load("public/detailsdialog.html");
-
     console.log("USERTOKEN:" + userToken);
     Credential.fetchAll(userToken, (data) => {
         let returnArray = [];
-        data.data.forEach(cred => {
-            let credential = new Credential();
-            credential.setFromData(cred)
-            returnArray.push(credential);
-            credentials.push(credential);
-        });
-        createCredentialOverview(returnArray);
+        if (data.data){
+            data.data.forEach(cred => {
+                let credential = new Credential();
+                credential.setFromData(cred)
+                returnArray.push(credential);
+                credentials.push(credential);
+            });
+            $('#appContent').load("public/detailsdialog.html");
+            createCredentialOverview(returnArray);
+        } else if(data.message == 'No Credentials Found') {
+            $('#appContent').append($('<h4>').text('It seems that you don\'t have any credentias yet. Please start by adding a one!'));
+        }
     }); 
 };
 

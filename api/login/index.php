@@ -67,15 +67,25 @@
 
 
     function handleUserRegistry($username, $password) {
-        $database = new Db();
-        $db = $database->connect();
+        try { 
+            $database = new Db();
+            $db = $database->connect();
 
-        $owner = new Ownerdata($db);
-        // asetetaan username ja password
-        $owner->setData($username, $password);
-        // viedään käyttäjä kantaan
-        $owner->create();
-        // TODO: generoidaan token ja lähetetään se clientille tai ilmoitetaan rekisteröinnin epäonnistumisesta
+            $owner = new Ownerdata($db);
+            // asetetaan username ja password
+            $owner->setData($username, $password);
+            // viedään käyttäjä kantaan
+            if ($owner->create()) {
+                $usertoken = generateUserToken($owner);
+                echo json_encode(array("usertoken" => $usertoken));
+                $owner->setUsertoken($usertoken);
+            } else {
+                echo json_encode(array("message" => "Registry failed"));
+                exit();
+            }
+        } catch (Exception $e) {
+            echo json_encode(array("message" => $e->getMessage()));
+        }
     }
 
 ?>

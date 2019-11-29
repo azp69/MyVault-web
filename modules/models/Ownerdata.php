@@ -109,7 +109,10 @@
          * vie uuden käyttäjän tietokantaan
          */
         public function create() {
-            // ??TODO: tarkistus, onko käyttäjä jo kannassa??
+            
+            if ($this->checkIfUserAlreadyExists($this->username)) {
+                return false;
+            }
 
             $user = mysqli_real_escape_string($this->conn, $this->username);
             $pass = mysqli_real_escape_string($this->conn, $this->password);
@@ -120,11 +123,24 @@
                 if ($this->conn->query($query)) {
                     $this->id = $this->conn->insert_id;
                     return true;
+                } else {
+                    return false;
                 }
             } catch (Exception $e) {
                 echo "Virhe";
                 return false;
             }
 
+        }
+
+        public function checkIfUserAlreadyExists($username) {
+            $username = mysqli_real_escape_string($this->conn, $username);
+            $query = "SELECT id FROM $this->table WHERE username='$username'";
+            $result = $this->conn->query($query);
+            if (mysqli_num_rows($result) > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
