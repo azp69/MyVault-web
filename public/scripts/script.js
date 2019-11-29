@@ -35,7 +35,11 @@ loadCreds = () =>
             $('#appContent').load("public/detailsdialog.html");
             createCredentialOverview(returnArray);
         } else if(data.message == 'No Credentials Found') {
-            $('#appContent').append($('<h4>').text('It seems that you don\'t have any credentias yet. Please start by adding a one!'));
+            $('#appContent')
+                .append(
+                    $('<h4>')
+                        .text('It seems that you don\'t have any credentias yet. Please start by adding a one!')
+                );
         }
     }); 
 };
