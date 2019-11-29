@@ -32,7 +32,7 @@ loadCreds = () =>
                 returnArray.push(credential);
                 credentials.push(credential);
             });
-            $('#appContent').load("public/detailsdialog.html");
+            $('#detailsPlaceholder').load("public/detailsdialog.html");
             createCredentialOverview(returnArray);
         } else if(data.message == 'No Credentials Found') {
             $('#appContent')
