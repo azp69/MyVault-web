@@ -42,11 +42,11 @@
          */
         public function set($data) {
             if (isset($data['credentialDescription']) && isset($data['username']) && 
-                isset($data['pwd']) && isset($data['iv'])) {
+                isset($data['pwd']) && isset($data['salt']) && isset($data['iv'])) {
                 $this->credentialDescription = $data['credentialDescription'];
                 $this->username = $data['username'];
                 $this->pwd = $data['pwd'];
-                $this->salt = $dat['salt'];
+                $this->salt = $data['salt'];
                 $this->iv = $data['iv'];
                 $this->url = $data['url'];
             } else {
@@ -64,7 +64,7 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
-                $salt = mysql_real_escape_string($this->conn, $this->salt);
+                $salt = mysqli_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
@@ -104,13 +104,13 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
-                $salt = mysql_real_escape_string($this->conn, $this->salt);
+                $salt = mysqli_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
                 // tehdään query kantaan ja palautetaan sen antama boolean
                 $query = "UPDATE $this->table " . 
-                        "SET credentialDescription='$desc', username='$user', pwd='$pass', salt='$salt' iv='$ivv', url='$addr' " .
+                        "SET credentialDescription='$desc', username='$user', pwd='$pass', salt='$salt', iv='$ivv', url='$addr' " .
                         "WHERE id='$id'";
                 if ($this->conn->query($query)) { 
                     return true; 

@@ -108,3 +108,8 @@ ul ul a {
 {
     background-color: #192E42 !important;
 }
+
+#linkToRegistering:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
