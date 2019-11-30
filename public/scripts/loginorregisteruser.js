@@ -91,12 +91,15 @@ apiCall = (requestObject, callback) => {
 
 
 $('#usernameInput').focusout(() => {
-    let ob = new Object();
-    ob.requestType = "CHECKIFUSEREXISTS";
-    ob.username = $('#usernameInput').val();
-    apiCall(ob, (result) => {
-        if (result.message) {
-            alert("Username already taken, please choose another one.");
-        }
-    });
+    if ($('#registerForm').length)
+    {
+        let ob = new Object();
+        ob.requestType = "CHECKIFUSEREXISTS";
+        ob.username = $('#usernameInput').val();
+        apiCall(ob, (result) => {
+            if (result.message) {
+                alert("Username already taken, please choose another one.");
+            }
+        });
+    }
 });
