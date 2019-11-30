@@ -42,7 +42,7 @@
          */
         public function set($data) {
             if (isset($data['credentialDescription']) && isset($data['username']) && 
-                isset($data['pwd']) && isset($data['iv'])) {
+                isset($data['pwd']) && isset($data['salt']) && isset($data['iv'])) {
                 $this->credentialDescription = $data['credentialDescription'];
                 $this->username = $data['username'];
                 $this->pwd = $data['pwd'];

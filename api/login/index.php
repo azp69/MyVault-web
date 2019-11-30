@@ -20,8 +20,10 @@
                 handleLogin($data['username'], $data['password']);
             break;
             case 'REGISTER':
-                handleUserRegistry($data['username'], $data['password']);
+                handleUserRegistry($data['username'], $data['password'], $data['serialkey']);
             break;
+            case 'CHECKIFUSEREXISTS':
+                checkIfUserExists($data['username']);
             default:
                 sendBadRequestResponse("Bad request");
             break;
@@ -65,9 +67,28 @@
 
     }
 
+    function checkIfUserExists($username) {
+        $database = new Db();
+        $db = $database->connect();
+        $owner = new Ownerdata($db);
+        $userexists = $owner->checkIfUserAlreadyExists($username);
+        if ($userexists) {
+            header(http_response_code(200));
+            echo json_encode(array("message" => "Username already taken!"));
+            exit();
+        } else {
+            header(http_response_code(204));
+            exit();
+        }
+    }
 
-    function handleUserRegistry($username, $password) {
+    function handleUserRegistry($username, $password, $serialkey) {
         try { 
+            if ($serialkey != 'Beta 2019') {
+                echo json_encode(array("message" => "Registry failed"));
+                exit();
+                return;
+            }
             $database = new Db();
             $db = $database->connect();
 
@@ -79,6 +100,7 @@
                 $usertoken = generateUserToken($owner);
                 echo json_encode(array("usertoken" => $usertoken));
                 $owner->setUsertoken($usertoken);
+                exit();
             } else {
                 echo json_encode(array("message" => "Registry failed"));
                 exit();

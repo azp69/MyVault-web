@@ -90,7 +90,7 @@ loadCreds = () =>
             $('#appContent')
                 .append(
                     $('<h4>')
-                        .text('It seems that you don\'t have any credentias yet. Please start by adding a one!')
+                        .text('It seems that you don\'t have any credentials yet. Please start by adding a one!')
                 );
         }
     }); 
