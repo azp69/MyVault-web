@@ -10,7 +10,7 @@ $(() => {
     else
     {
         userToken = getCookie("usertoken");
-        $('#detailsPlaceholder').load("public/detailsdialog.html");
+        
         createMenu();
         loadCreds();
     }    
@@ -18,6 +18,7 @@ $(() => {
 
 createMenu = () =>
 {
+    $('#detailsPlaceholder').load("public/detailsdialog.html");
     var createCredmenuitem = $('<li>');
     var link = $('<a>' , {
         text: 'Create new credential',
@@ -27,13 +28,21 @@ createMenu = () =>
 
     link.click(function()
     {
-        // TODO uusi credentiaali
+        if (masterPass == null || masterPass == "")
+        {
+            masterPass = prompt("Please enter your master password", "");
+
+            if (masterPass == null || masterPass == "") {
+                return;
+            } 
+        }
+
         $('#detailsDialogUsernameInput').val("");
         $('#detailsDialogDescriptionInput').val("");
         $('#detailsDialogUrlInput').val("");
         $('#detailsDialogIdInput').val("");
         $('#detailsDialogPasswordInput').val("");
-        $("#detailsDialog").modal();
+        $("#detailsDialog").modal('toggle');
     });
 
     createCredmenuitem.append(link);
@@ -87,6 +96,7 @@ loadCreds = () =>
     }); 
 };
 
+
 createCredentialOverview = (data) => {
     let element =  $('<div>').addClass('overview');
     for (let i = 0; i < data.length; i++) {
@@ -127,7 +137,7 @@ createCredentialOverviewElement = (cred) => {
         $('#detailsDialogIdInput').val(cred.id);
         $('#detailsDialogPasswordInput').val(purettu);
 
-        $("#detailsDialog").modal();
+        $("#detailsDialog").modal('toggle');
     });
 
     return element;
