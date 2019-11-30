@@ -29,8 +29,9 @@ $('#loginForm').submit(function( event )
                 document.cookie = "usertoken=" + result.usertoken + "; path=/;";
                 userToken = result.usertoken;
                 console.log(userToken);
-                
+
                 loadCreds();
+                createMenu();
                 $(".loginform").hide();
             }
             

@@ -3,7 +3,6 @@ let masterPass = null;
 let userToken = null;
 
 $(() => {
-    // const usertoken = "9a8b6d59d6ba5ad7d0b6572603faa3f331225bfa6a069e666a908c85f604e52a2736d3caf217507ee0804d2a03d14d790ff968fc1cd15992fe28ea2fd129c549";
     if (getCookie("usertoken") == '')
     {
         login();
@@ -11,9 +10,44 @@ $(() => {
     else
     {
         userToken = getCookie("usertoken");
+        createMenu();
         loadCreds();
     }    
 });
+
+createMenu = () =>
+{
+    var createCredmenuitem = $('<li>');
+    var link = $('<a>' , {
+        text: 'Create new credential',
+        title: 'Create new credential',
+        href: '#'
+    });
+
+    link.click(function()
+    {
+        // TODO uusi credentiaali
+    });
+
+    createCredmenuitem.append(link);
+    $('#navElements').append(createCredmenuitem);
+
+    var signoutmenuitem = $('<li>');
+    link = $('<a>', {
+        text: 'Log out',
+        title: 'Log out',
+        href: '?'
+    });
+
+
+    link.click(function(){
+        document.cookie = "usertoken=; path=/;";
+        masterPass = null;
+    });
+
+    signoutmenuitem.append(link);
+    $('#navElements').append(signoutmenuitem);
+}
 
 login = () =>
 {
@@ -59,13 +93,31 @@ createCredentialOverviewElement = (cred) => {
     
     element.click(function()
     {
+        if (masterPass == null || masterPass == "")
+        {
+            masterPass = prompt("Please enter your master password", "");
+
+            if (masterPass == null || masterPass == "") {
+                return;
+            } 
+        }
+
+        var key = AES.generateKey(cred.salt, masterPass);
+        var purettu = AES.decrypt(key, cred.iv, cred.password);
+
+        if (purettu == "" || purettu == null)
+        {
+            alert("Wrong master password?");
+            masterPass = null;
+            return;
+        }
+
         $("#detailsDialog").modal();
         
         $('#detailsDialogUsernameInput').val(cred.username);
         $('#detailsDialogDescriptionInput').val(cred.credentialDescription);
 
-        var key = AES.generateKey(cred.salt, "asd");
-        var purettu = AES.decrypt(key, cred.iv, cred.password);
+        
 
         $('#detailsDialogPasswordInput').val(purettu);
         // $('#detailsDialogPasswordInput').val(cred.password);
