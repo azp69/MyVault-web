@@ -125,19 +125,22 @@
         /**
          * Tekee tarkistuksen, että id:llä ja ownerId:llä löytyy kannasta credentiaali ja poistaa sen
          */
-        public function delete($usertoken, $id) {
+        public function delete($usertoken, $data) {
             try {
-                $id = mysqli_real_escape_string($this->conn, $id);
+                $id = mysqli_real_escape_string($this->conn, $data['id']);
                 // haetaan ownerId kannasta
                 $oid = $this->fetchOwnerId($usertoken);
                 // haetaan vanha credentiaali kannasta
+                /*
                 $old = $this->fetchOldCredential($id, $oid);
                 if ($old == null) { throw new Exception('No matching credential found'); }
                 // tehdään query kantaan
+                */
                 $query = "DELETE FROM $this->table WHERE id='$id'";
                 if ($this->conn->query($query)) { 
                     return true; 
                 } else { 
+                    echo $conn->error;
                     return false; 
                 }
             } catch (Exception $e) {
@@ -156,7 +159,7 @@
                             'WHERE id=' . $id . ' AND ownerId=' . $oid;
                 $result = $this->conn->query($query);
                 // jos kanta palautta rivin, palautetaan se
-                if (!$result->error && $result->num_rows == 1) {
+                if (!$this->conn->error && $result->num_rows == 1) {
                     $row = $result->fetch_assoc();
                     return $row;
                 } else { 
@@ -175,7 +178,7 @@
             $query = 'SELECT id, last_activity FROM vaultOwner WHERE usertoken="'. $token . '"';
             $result = $this->conn->query($query);
 
-            if (!$result->error && $result->num_rows == 1) {
+            if (!$this->conn->error && $result->num_rows == 1) {
                 $row = $result->fetch_assoc();
 
                 if ($this->checkForLastActivity == false)

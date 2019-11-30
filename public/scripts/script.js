@@ -10,6 +10,7 @@ $(() => {
     else
     {
         userToken = getCookie("usertoken");
+        $('#detailsPlaceholder').load("public/detailsdialog.html");
         createMenu();
         loadCreds();
     }    
@@ -27,6 +28,12 @@ createMenu = () =>
     link.click(function()
     {
         // TODO uusi credentiaali
+        $('#detailsDialogUsernameInput').val("");
+        $('#detailsDialogDescriptionInput').val("");
+        $('#detailsDialogUrlInput').val("");
+        $('#detailsDialogIdInput').val("");
+        $('#detailsDialogPasswordInput').val("");
+        $("#detailsDialog").modal();
     });
 
     createCredmenuitem.append(link);
@@ -56,6 +63,8 @@ login = () =>
 
 loadCreds = () =>
 {
+    $('#appContent > *').remove();
+
     console.log("USERTOKEN:" + userToken);
     Credential.fetchAll(userToken, (data) => {
         let returnArray = [];
@@ -66,7 +75,7 @@ loadCreds = () =>
                 returnArray.push(credential);
                 credentials.push(credential);
             });
-            $('#detailsPlaceholder').load("public/detailsdialog.html");
+            
             createCredentialOverview(returnArray);
         } else if(data.message == 'No Credentials Found') {
             $('#appContent')
@@ -111,21 +120,14 @@ createCredentialOverviewElement = (cred) => {
             masterPass = null;
             return;
         }
-
-        $("#detailsDialog").modal();
         
         $('#detailsDialogUsernameInput').val(cred.username);
         $('#detailsDialogDescriptionInput').val(cred.credentialDescription);
-
-        
-
+        $('#detailsDialogUrlInput').val(cred.url);
+        $('#detailsDialogIdInput').val(cred.id);
         $('#detailsDialogPasswordInput').val(purettu);
-        // $('#detailsDialogPasswordInput').val(cred.password);
 
-        console.log("PASSWORD:" + purettu);
-        console.log("SALT:" + cred.salt);
-        console.log("IV:" + cred.iv);
-        
+        $("#detailsDialog").modal();
     });
 
     return element;
