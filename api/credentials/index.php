@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             updateCred($data['usertoken'], $data['requestData']);
             break;
         case 'DELETE':
-            deleteCred($data['usertoken'], $data['requestData']['id']);
+            deleteCred($data['usertoken'], $data['requestData']);
             break;
         default:
             sendBadRequestResponse("default");

@@ -46,7 +46,7 @@
                 $this->credentialDescription = $data['credentialDescription'];
                 $this->username = $data['username'];
                 $this->pwd = $data['pwd'];
-                $this->salt = $dat['salt'];
+                $this->salt = $data['salt'];
                 $this->iv = $data['iv'];
                 $this->url = $data['url'];
             } else {
@@ -64,7 +64,7 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
-                $salt = mysql_real_escape_string($this->conn, $this->salt);
+                $salt = mysqli_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
@@ -104,13 +104,13 @@
                 $desc = mysqli_real_escape_string($this->conn, $this->credentialDescription);
                 $user = mysqli_real_escape_string($this->conn, $this->username);
                 $pass = mysqli_real_escape_string($this->conn, $this->pwd);
-                $salt = mysql_real_escape_string($this->conn, $this->salt);
+                $salt = mysqli_real_escape_string($this->conn, $this->salt);
                 $ivv = mysqli_real_escape_string($this->conn, $this->iv);
                 $addr = mysqli_real_escape_string($this->conn, $this->url);
 
                 // tehdään query kantaan ja palautetaan sen antama boolean
                 $query = "UPDATE $this->table " . 
-                        "SET credentialDescription='$desc', username='$user', pwd='$pass', salt='$salt' iv='$ivv', url='$addr' " .
+                        "SET credentialDescription='$desc', username='$user', pwd='$pass', salt='$salt', iv='$ivv', url='$addr' " .
                         "WHERE id='$id'";
                 if ($this->conn->query($query)) { 
                     return true; 
@@ -125,19 +125,22 @@
         /**
          * Tekee tarkistuksen, että id:llä ja ownerId:llä löytyy kannasta credentiaali ja poistaa sen
          */
-        public function delete($usertoken, $id) {
+        public function delete($usertoken, $data) {
             try {
-                $id = mysqli_real_escape_string($this->conn, $id);
+                $id = mysqli_real_escape_string($this->conn, $data['id']);
                 // haetaan ownerId kannasta
                 $oid = $this->fetchOwnerId($usertoken);
                 // haetaan vanha credentiaali kannasta
+                /*
                 $old = $this->fetchOldCredential($id, $oid);
                 if ($old == null) { throw new Exception('No matching credential found'); }
                 // tehdään query kantaan
+                */
                 $query = "DELETE FROM $this->table WHERE id='$id'";
                 if ($this->conn->query($query)) { 
                     return true; 
                 } else { 
+                    echo $conn->error;
                     return false; 
                 }
             } catch (Exception $e) {
@@ -156,7 +159,7 @@
                             'WHERE id=' . $id . ' AND ownerId=' . $oid;
                 $result = $this->conn->query($query);
                 // jos kanta palautta rivin, palautetaan se
-                if (!$result->error && $result->num_rows == 1) {
+                if (!$this->conn->error && $result->num_rows == 1) {
                     $row = $result->fetch_assoc();
                     return $row;
                 } else { 
@@ -175,7 +178,7 @@
             $query = 'SELECT id, last_activity FROM vaultOwner WHERE usertoken="'. $token . '"';
             $result = $this->conn->query($query);
 
-            if (!$result->error && $result->num_rows == 1) {
+            if (!$this->conn->error && $result->num_rows == 1) {
                 $row = $result->fetch_assoc();
 
                 if ($this->checkForLastActivity == false)
