@@ -88,7 +88,7 @@
 
     function handleUserRegistry($username, $password, $serialkey) {
         try { 
-            if ($serialkey != 'Beta 2019') {
+            if ($serialkey != 'Beta 2019' || strlen($password) < 8) {
                 echo json_encode(array("message" => "Registry failed"));
                 exit();
                 return;
