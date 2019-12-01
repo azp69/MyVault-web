@@ -4,6 +4,7 @@
 
     include_once('../../modules/database/Db.php');
     include_once('../../modules/models/Ownerdata.php');
+    include_once('functions/hashPassword.php');
     include_once('functions/generateUsertoken.php');
     
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -41,6 +42,9 @@
     {
         $database = new Db();
         $db = $database->connect();
+
+        $password = hashPassword(mysqli_real_escape_string($db, $password));
+        $username = mysqli_real_escape_string($db, $username);
 
         $owner = new Ownerdata($db);
 
@@ -91,6 +95,9 @@
             }
             $database = new Db();
             $db = $database->connect();
+
+            $password = hashPassword(mysqli_real_escape_string($db, $password));
+            $username = mysqli_real_escape_string($db, $username);
 
             $owner = new Ownerdata($db);
             // asetetaan username ja password
