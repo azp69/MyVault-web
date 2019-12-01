@@ -26,24 +26,7 @@ createMenu = () =>
         href: '#'
     });
 
-    link.click(function()
-    {
-        if (masterPass == null || masterPass == "")
-        {
-            masterPass = prompt("Please enter your master password", "");
-
-            if (masterPass == null || masterPass == "") {
-                return;
-            } 
-        }
-
-        $('#detailsDialogUsernameInput').val("");
-        $('#detailsDialogDescriptionInput').val("");
-        $('#detailsDialogUrlInput').val("");
-        $('#detailsDialogIdInput').val("");
-        $('#detailsDialogPasswordInput').val("");
-        $("#detailsDialog").modal('toggle');
-    });
+    link.click(openNewCredentialView);
 
     createCredmenuitem.append(link);
     $('#navElements').append(createCredmenuitem);
@@ -65,6 +48,24 @@ createMenu = () =>
     $('#navElements').append(signoutmenuitem);
 }
 
+openNewCredentialView = () => {
+    if (masterPass == null || masterPass == "")
+    {
+        masterPass = prompt("Please enter your master password", "");
+
+        if (masterPass == null || masterPass == "") {
+            return;
+        } 
+    }
+
+    $('#detailsDialogUsernameInput').val("");
+    $('#detailsDialogDescriptionInput').val("");
+    $('#detailsDialogUrlInput').val("");
+    $('#detailsDialogIdInput').val("");
+    $('#detailsDialogPasswordInput').val("");
+    $("#detailsDialog").modal('toggle');
+}
+
 login = () =>
 {
     $('#appContent').load("public/login.html");
@@ -76,22 +77,18 @@ loadCreds = () =>
 
     console.log("USERTOKEN:" + userToken);
     Credential.fetchAll(userToken, (data) => {
-        let returnArray = [];
+        // let returnArray = [];
         if (data.data != null){
             data.data.forEach(cred => {
                 let credential = new Credential();
                 credential.setFromData(cred)
-                returnArray.push(credential);
+                // returnArray.push(credential);
                 credentials.push(credential);
             });
             
-            createCredentialOverview(returnArray);
+            createCredentialOverview(credentials);
         } else if(data.message == 'No Credentials Found') {
-            $('#appContent')
-                .append(
-                    $('<h4>')
-                        .text('It seems that you don\'t have any credentials yet. Please start by adding a one!')
-                );
+            $('#appContent').load("public/credsempty.html");
         }
     }); 
 };
@@ -102,6 +99,7 @@ createCredentialOverview = (data) => {
     for (let i = 0; i < data.length; i++) {
         element.append(createCredentialOverviewElement(data[i]));
     }
+    element.css('padding-left', '5em');
     $('#appContent').append(element);
 }
 
