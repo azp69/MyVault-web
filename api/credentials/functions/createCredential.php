@@ -18,8 +18,8 @@ function createCredential($usertoken, $data) {
         // asetetaan credential-objektin propertyt
         $credential->set($data);
         // viedään credential kantaan
-        if ($credential->create($usertoken)) {
-            return json_encode(array('message' => 'New credential created!'));
+        if ($id = $credential->create($usertoken)) {
+            return json_encode(array('message' => 'New credential created!', 'id' => ''.$id));
         } else {
             return json_encode(array('message' => 'Could not create'));
         }

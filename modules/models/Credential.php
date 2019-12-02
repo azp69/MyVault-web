@@ -75,7 +75,8 @@
                 // TODO: palauta credentiaali clientille
 
                 if ($this->conn->query($query) === TRUE) {
-                    return true;
+                    $last_id = $this->conn->insert_id;
+                    return $last_id;
                 } else {
                     throw new Exception($this->conn->error);
                 }
