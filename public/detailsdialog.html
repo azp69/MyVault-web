@@ -113,15 +113,13 @@ function sendCredRequest(reqType, Cred)
           {
             "requestType" : reqType,
             "usertoken" : userToken,
-            "requestData" : {
-              "id" : Cred.id,
-              "credentialDescription" : Cred.credentialDescription,
-              "username" : Cred.username,
-              "pwd" : Cred.password,
-              "salt" : Cred.salt,
-              "iv" : Cred.iv,
-              "url" : Cred.url
-            }
+            "id" : Cred.id,
+            "credentialDescription" : Cred.credentialDescription,
+            "username" : Cred.username,
+            "pwd" : Cred.password,
+            "salt" : Cred.salt,
+            "iv" : Cred.iv,
+            "url" : Cred.url
           });
           console.log("Tämä on pyyntö:" + d);
 

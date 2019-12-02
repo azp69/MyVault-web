@@ -74,7 +74,8 @@ login = () =>
 loadCreds = () =>
 {
     $('#appContent > *').remove();
-
+    credentials = [];
+    
     console.log("USERTOKEN:" + userToken);
     Credential.fetchAll(userToken, (data) => {
         // let returnArray = [];

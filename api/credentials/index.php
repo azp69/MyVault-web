@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             sendCredentials($data['usertoken']);
             break;
         case 'CREATE':
-            createCred($data['usertoken'], $data['requestData']);
+            createCred($data['usertoken'], $data);
             break;
         case 'UPDATE':
-            updateCred($data['usertoken'], $data['requestData']);
+            updateCred($data['usertoken'], $data);
             break;
         case 'DELETE':
-            deleteCred($data['usertoken'], $data['requestData']);
+            deleteCred($data['usertoken'], $data);
             break;
         default:
             sendBadRequestResponse("default");
