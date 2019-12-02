@@ -16,7 +16,8 @@ $('#loginForm').submit(function( event )
         // var obj = JSON.parse(result);
         if (result.message)
         {
-            alert(result.message);
+            console.log(result.message);
+            // alert(result.message);
         }
         else if(result.usertoken)
         {
@@ -164,7 +165,7 @@ apiCall = (requestObject, callback) => {
         type : 'POST'
         }).done(callback)
         .fail(function(result) {
-            alert(result);
+            alert("Failed");
         });
 }
 

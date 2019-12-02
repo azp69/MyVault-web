@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 function sendBadRequestResponse($message) {
     header(http_response_code(400));
     header('Content-Type: application/json');
+    header('ERROR: ' . $message);
     echo json_encode(array('message' => $message));
     exit();
 }
