@@ -18,6 +18,8 @@ $(() => {
 
 createMenu = () =>
 {
+    $('navElements > *').remove();
+    
     $('#detailsPlaceholder').load("public/detailsdialog.html");
     var createCredmenuitem = $('<li>');
     var link = $('<a>' , {
