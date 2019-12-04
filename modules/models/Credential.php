@@ -137,9 +137,14 @@
                 if ($old == null) { throw new Exception('No matching credential found'); }
                 // tehdään query kantaan
                 */
-                $query = "DELETE FROM $this->table WHERE id='$id'";
+                $query = "DELETE FROM $this->table WHERE id='$id' AND ownerId='$oid'";
                 if ($this->conn->query($query)) { 
-                    return true; 
+                    if ($this->conn->affected_rows == 0)
+                    {
+                        // echo "No rows affected!";
+                    }
+                    else
+                        return true; 
                 } else { 
                     echo $conn->error;
                     return false; 
