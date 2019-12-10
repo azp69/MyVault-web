@@ -13,7 +13,11 @@ $(() => {
         
         createMenu();
         loadCreds();
-    }    
+    }
+    $('#helpPageLink').click((event) => {
+        event.preventDefault();
+        $('#appContent').load("public/help.html");
+    });
 });
 
 createMenu = () =>
@@ -68,32 +72,27 @@ openNewCredentialView = () => {
     $("#detailsDialog").modal('toggle');
 }
 
-login = () =>
-{
+login = () => {
     $('#appContent').load("public/login.html");
 }
 
-loadCreds = () =>
-{
+loadCreds = async () => {
     $('#appContent > *').remove();
     credentials = [];
-    
-    console.log("USERTOKEN:" + userToken);
-    Credential.fetchAll(userToken, (data) => {
-        // let returnArray = [];
-        if (data.data != null){
-            data.data.forEach(cred => {
-                let credential = new Credential();
-                credential.setFromData(cred)
-                // returnArray.push(credential);
-                credentials.push(credential);
-            });
-            
-            createCredentialOverview(credentials);
-        } else if(data.message == 'No Credentials Found') {
-            $('#appContent').load("public/credsempty.html");
-        }
-    }); 
+    // haetaan credentiaalit API:sta
+    const res = await Credential.fetchAll(userToken);
+    if (res.data != null){
+        res.data.forEach(cred => {
+            let credential = new Credential();
+            credential.setFromData(cred)
+            credentials.push(credential);
+        });
+        createCredentialOverview(credentials);
+    } else if(res.message == 201) {
+        $('#appContent').load("public/credsempty.html");
+    } else {
+        login();
+    }
 };
 
 
@@ -123,7 +122,7 @@ createCredentialOverviewElement = (cred) => {
         }
 
         var key = AES.generateKey(cred.salt, masterPass);
-        var purettu = AES.decrypt(key, cred.iv, cred.password);
+        var purettu = AES.decrypt(key, cred.iv, cred.pwd);
 
         if (purettu == "" || purettu == null)
         {
@@ -149,16 +148,16 @@ function getCookie(cname) {
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
     for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
-  }
+}
 
   
   

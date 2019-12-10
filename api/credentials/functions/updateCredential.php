@@ -23,11 +23,15 @@ function updateCredential($usertoken, $data) {
         // päivitetään credential kantaan
         $result = $credential->update($usertoken, $data['id']);
         if ($result === TRUE) {
-            return json_encode(array('message' => 'Credential updated!'));
+            return json_encode(array('message' => 200));
         } else {
-            return json_encode(array('message' => 'Could not update credential', "id" => $data['id']));
+            return json_encode(array('message' => 409, "id" => $data['id']));
         }
     } catch(Exception $e) {
-        throw $e;
+        if ($e->getMessage == '409') {
+            return json_encode(array('message' => 409));
+        } else {
+            throw $e;
+        }
     }
 }
