@@ -20,11 +20,15 @@ function deleteCredential($usertoken, $id) {
         $result = $credential->delete($usertoken, $id);
 
         if ($result === TRUE) {
-            return json_encode(array('message' => 'Credential deleted!'));
+            return json_encode(array('message' => 200));
         } else {
-            return json_encode(array('message' => 'Could not delete credential', "id" => $data['id']));
+            return json_encode(array('message' => 409, "id" => $id));
         }
     } catch(Exception $e) {
-        throw $e;
+        if ($e->getMessage == '409') {
+            return json_encode(array('message' => 409));
+        } else {
+            throw $e;
+        }
     }
 }

@@ -8,9 +8,10 @@ include_once '../../modules/models/Credential.php';
  */
 function readCredentials($usertoken) {
 
-    // tarkistetaan, että usertoken on asetettu
-    // tämä varmaan tulee muutoin tarkistettavaksi
-    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in readCredentials.readCredentials'); }
+    if (!isset($usertoken)) { 
+        return json_encode(
+            array('message' => 401)); 
+    }
 
     try {
         // luodaan yhteys kantaan
@@ -24,8 +25,9 @@ function readCredentials($usertoken) {
         // luodaan tietokannan riveistä associative array ja palautetaan se JSON-objektina
         $row_count = $result->num_rows;
         if ($row_count > 0) {
-            $credentialArray = array();
-            $credentialArray['data'] = array();
+            $responseArray = array();
+            $responseArray['data'] = array();
+            $responseArray['message'] = 200;
     
             while ($row = $result->fetch_assoc()) {
                 extract($row);
@@ -38,12 +40,12 @@ function readCredentials($usertoken) {
                     'iv' => $iv,
                     'url' => $url
                 );
-                array_push($credentialArray['data'], $credentialItem);
+                array_push($responseArray['data'], $credentialItem);
             }
-            return json_encode($credentialArray);
+            return json_encode($responseArray);
         } else {
             return json_encode(
-                array('message' => 'No Credentials Found')
+                array('message' => 201)
             );
         }
     } catch(Exception $e) {

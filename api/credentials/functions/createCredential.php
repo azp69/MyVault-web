@@ -19,11 +19,16 @@ function createCredential($usertoken, $data) {
         $credential->set($data);
         // viedään credential kantaan
         if ($id = $credential->create($usertoken)) {
-            return json_encode(array('message' => 'New credential created!', 'id' => ''.$id));
+            return json_encode(array('message' => 200, 'id' => $id));
         } else {
-            return json_encode(array('message' => 'Could not create'));
+            // 409 = conflict
+            return json_encode(array('message' => 409));
         }
     } catch(Exception $e) {
-        throw $e;
+        if ($e->getMessage == '409') {
+            return json_encode(array('message' => 409));
+        } else {
+            throw $e;
+        }
     }
 }

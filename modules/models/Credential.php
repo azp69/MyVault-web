@@ -50,7 +50,7 @@
                 $this->iv = $data['iv'];
                 $this->url = $data['url'];
             } else {
-                throw new Exception("Invalid arguments!");
+                throw new Exception("409");
             }
         }
 
