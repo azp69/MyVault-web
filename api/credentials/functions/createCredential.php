@@ -8,8 +8,14 @@ include_once '../../modules/models/Credential.php';
  */
 function createCredential($usertoken, $data) {
     
-    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in createCredential.createCredential: ' . $usertoken); }
-    if (!isset($data)) { throw new Exception('Invalid data in createCredential.createCredential'); }
+    if (!isset($usertoken)) { 
+        return json_encode(
+            array('message' => 401)); 
+    }
+    if (!isset($data)) { 
+        return json_encode(
+            array('message' => 400)); 
+    }
 
     try {
         $database = new Db();

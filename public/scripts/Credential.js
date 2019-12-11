@@ -34,9 +34,8 @@ class Credential {
     /**
      * Pyytää kaikki credentiaalit API:lta usertokenin perusteella
      * @param {string} usertoken 
-     * @param {function} callback 
      */
-    static async fetchAll(usertoken, callback) {
+    static async fetchAll(usertoken) {
         const reqData = JSON.stringify({
             requestType:"READ", 
             usertoken: usertoken
@@ -44,7 +43,6 @@ class Credential {
         try {
             const res = await callCredApi(reqData);
             return res;
-            //callback(res);
         } catch(ex) {
             return {message:ex, data:null};
         }

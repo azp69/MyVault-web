@@ -14,15 +14,27 @@ $('#showPasswordBtn').click(function()
 
 $('#deleteCredentialsBtn').click(async function()
 {
+    $('#saveCredentialsBtn').prop('disabled', true);
+    $('#showPasswordBtn').prop('disabled', true);
+    $('#deleteCredentialsBtn').prop('disabled', true);
     var c = new Credential();
     c.id = $('#detailsDialogIdInput').val();
     await c.delete(userToken);
     loadCreds();
+    $("#detailsDialog").modal('hide');
+    $('#saveCredentialsBtn').prop('disabled', false);
+    $('#showPasswordBtn').prop('disabled', false);
+    $('#deleteCredentialsBtn').prop('disabled', false);
 });
 
 $('#saveCredentialsBtn').click(async function()
 {
   var id = $('#detailsDialogIdInput').val();
+
+  $('#saveCredentialsBtn').prop('disabled', true);
+  $('#showPasswordBtn').prop('disabled', true);
+  $('#deleteCredentialsBtn').prop('disabled', true);
+  
   
   if (id == null || id == "") // Uusi credential
   {
@@ -60,6 +72,8 @@ $('#saveCredentialsBtn').click(async function()
     await c.update(userToken);
     loadCreds();
   }
-  
   $("#detailsDialog").modal('hide');
+  $('#saveCredentialsBtn').prop('disabled', false);
+  $('#showPasswordBtn').prop('disabled', false);
+  $('#deleteCredentialsBtn').prop('disabled', false);
 });

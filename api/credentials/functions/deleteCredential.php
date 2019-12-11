@@ -8,8 +8,14 @@ include_once '../../modules/models/Credential.php';
  */
 function deleteCredential($usertoken, $id) {
     // tehdään tarkistukset, että parametrit on asetettu oikein
-    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in deleteCredential.deleteCredential'); }
-    if (!isset($id) || is_nan($id)) { throw new Exception('Invalid $id in deleteCredential.deleteCredential'); }
+    if (!isset($usertoken)) { 
+        return json_encode(
+            array('message' => 401));
+    }
+    if (!isset($id) || is_nan($id)) { 
+        return json_encode(
+            array('message' => 400));
+    }
     
     try {
         // luodaan yhteys kantaan

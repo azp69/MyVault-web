@@ -50,19 +50,17 @@ function sendCredentials($usertoken) {
         header('Content-Type: application/json');
         echo readCredentials($usertoken);
     } catch (Exception $e) {
-        // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
     }
 }
 
 function createCred($usertoken, $data) {
     try {
-        header(http_response_code(201));
+        header(http_response_code(200));
         header('Content-Type: application/json');
         $dataToSend = createCredential($usertoken, $data);
         echo $dataToSend;
     } catch (Exception $e) {
-        // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
     }
 }
@@ -74,7 +72,6 @@ function updateCred($usertoken, $data) {
         $dataToSend = updateCredential($usertoken, $data);
         echo $dataToSend;
     } catch (Exception $e) {
-        // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
     }
 }
@@ -86,7 +83,11 @@ function deleteCred($usertoken, $data) {
         $dataToSend = deleteCredential($usertoken, $data);
         echo $dataToSend;
     } catch (Exception $e) {
-        // message vain debuggausta varten => TODO: poista
         sendBadRequestResponse($e->getMessage());
     }
+}
+
+function sendServerErrorResponse() {
+    header('Content-Type: application/json');
+    exit(500);
 }

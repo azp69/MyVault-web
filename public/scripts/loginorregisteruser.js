@@ -8,9 +8,6 @@ $('#loginForm').submit(function( event )
     o.username = $('#usernameInput').val();
     o.password = $('#passwordInput').val();
     
-
-    // alert(JSON.stringify(o));
-
     apiCall(o, function(result) 
     {
         // var obj = JSON.parse(result);

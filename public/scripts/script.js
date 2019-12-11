@@ -101,7 +101,6 @@ createCredentialOverview = (data) => {
     for (let i = 0; i < data.length; i++) {
         element.append(createCredentialOverviewElement(data[i]));
     }
-    element.css('padding-left', '5em');
     $('#appContent').append(element);
 }
 

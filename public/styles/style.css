@@ -15,7 +15,6 @@ body {
 
 .loginform, .helpContent, .registerform {
     padding-top: 1em;
-    padding-left:5rem;
 }
 
 .regLink {
@@ -28,7 +27,7 @@ body {
 }
 
 .jumbo-container {
-    padding: 0 10px;
+    padding: 0 10vw;
 }
 
 .overviewElement {
@@ -50,8 +49,8 @@ body {
 /* Sidebar */
 #sidebar {
     min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
+    /* max-width: 20vw; */
+    padding-left: 10vw;
 }
 
 a[data-toggle="collapse"] {
@@ -73,7 +72,7 @@ a[data-toggle="collapse"] {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #1B9CD8;
+    /* border-bottom: 1px solid #1B9CD8; */
 }
 
 #sidebar ul p {
