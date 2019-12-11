@@ -9,9 +9,18 @@ include_once '../../modules/models/Credential.php';
 function updateCredential($usertoken, $data) {
 
     // tehdään tarkistukset, että parametrit on asetettu oikein
-    if (!isset($usertoken)) { throw new Exception('Invalid usertoken in updateCredential.updateCredential'); }
-    if (!isset($data)) { throw new Exception('Invalid data in updateCredential.updateCredential'); }
-    if (!isset($data['id']) || is_nan($data['id'])) { throw new Exception('Invalid data[id] in updateCredential.updateCredential'); }
+    if (!isset($usertoken)) {
+        return json_encode(
+            array('message' => 401));
+    }
+    if (!isset($data)) {
+        return json_encode(
+            array('message' => 400));
+    }
+    if (!isset($data['id']) || is_nan($data['id'])) {
+        return json_encode(
+            array('message' => 400));
+    }
     
     try {
         // luodaan yhteys kantaan
