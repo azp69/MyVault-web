@@ -38,6 +38,31 @@
         {
             return $this->pwd;
         }
+
+        public function setPassword($oldpass, $newpass)
+        {
+            $query = 'UPDATE ' . $this->table . ' SET pwd="' . $newpass . '" WHERE id="' . $this->id . '" AND pwd="' . $oldpass . '"';
+            try
+            {
+                if ($this->conn->query($query) === TRUE)
+                {
+                    if ($this->conn->affected_rows > 0)
+                    {
+                        $this->pwd = $newpass;
+                        return true;
+                    }
+                }
+                else
+                {
+                    echo json_encrypt(array("message" => $conn->error));
+                    return false;
+                }
+            }
+            catch (Exception $e)
+            {
+                return false;
+            }
+        }
         
         public function setUsertoken($token)
         {
@@ -51,11 +76,11 @@
                     else
                     {
                         echo json_encrypt(array("message" => $conn->error));
+                        return false;
                     }
             }
             catch (Exception $e)
             {
-                echo "Virhe";
                 return false;
             }
         }
@@ -66,6 +91,32 @@
             $query = 'SELECT 
                         o.id, o.username, o.pwd, o.usertoken, o.last_activity
                     FROM ' . $this->table . ' as o WHERE username="' . $username . '" AND pwd="' . $password .'"';
+            try {
+                $result = $this->conn->query($query);
+                if (mysqli_num_rows($result) > 0)
+                {
+                    $data = mysqli_fetch_assoc($result);
+                    
+                    $this->id = $data['id'];
+                    $this->username = $data['username'];
+                    $this->pwd = $data['pwd'];
+                    $this->usertoken = $data['usertoken'];
+                    $this->last_activity = $data['last_activity'];
+                    return true;
+                }
+            }
+            catch (Exception $e)
+            {
+                echo "Virhe";
+                return false;
+            }
+        }
+
+        public function getDataWithToken($token)
+        {
+            $query = 'SELECT 
+                        o.id, o.username, o.pwd, o.usertoken, o.last_activity
+                    FROM ' . $this->table . ' as o WHERE usertoken="' . $token . '"';
             try {
                 $result = $this->conn->query($query);
                 if (mysqli_num_rows($result) > 0)

@@ -25,6 +25,10 @@
             break;
             case 'CHECKIFUSEREXISTS':
                 checkIfUserExists($data['username']);
+            break;
+            case 'PWDUPDATE':
+                updateUserPassword($data['usertoken'], $data['oldpassword'], $data['newpassword']);
+            break;
             default:
                 sendBadRequestResponse("Bad request");
             break;
@@ -37,6 +41,32 @@
         header('ERROR: ' . $message);
         echo json_encode(array('message' => $message));
         exit();
+    }
+
+    function updateUserPassword($usertoken, $oldpass, $newpass)
+    {
+        $database = new Db();
+        $db = $database->connect();
+
+        $newpass = hashPassword(mysqli_real_escape_string($db, $newpass));
+        $oldpass = hashPassword(mysqli_real_escape_string($db, $oldpass));
+
+        $usertoken = mysqli_real_escape_string($db, $usertoken);
+
+        $owner = new Ownerdata($db);
+
+        $success = $owner->getDataWithToken($usertoken);
+
+        if ($success)
+        {
+            if ($owner->setPassword($oldpass, $newpass))
+            {
+                echo json_encode(array("message" => "ok"));
+                exit();
+            }
+        }
+        sendBadRequestResponse("Something went wrong while changing password.");
+
     }
 
     function handleLogin($username, $password)

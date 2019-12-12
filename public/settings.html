@@ -1,0 +1,27 @@
+<div class="optionsContent">
+    <div class="changePasswordGroup">
+        <h2>Change your account password</h2>
+        <h3 id="pwdChangeStatusMessage"></h3>
+        <form id="changePasswordForm">
+            <div class="form-group">
+                <label for="passwordinput">Old password</label>
+                <input type="password" class="form-control" id="oldPasswordInput">
+            </div>
+            <div class="form-group">
+                <label for="passwordinput">New password</label>
+                <input type="password" class="form-control" id="newpasswordInput">
+            </div>
+            <div class="form-group">
+                <label for="passwordinput">New password again</label>
+                <input type="password" class="form-control" id="newpasswordAgainInput">
+            </div>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="submitNewPass">Submit</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    $.getScript('public/scripts/changeloginpassword.js');
+</script>

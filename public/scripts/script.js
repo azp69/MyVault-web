@@ -25,17 +25,28 @@ createMenu = () =>
     $('navElements > *').remove();
     
     $('#detailsPlaceholder').load("public/detailsdialog.html");
+
     var createCredmenuitem = $('<li>');
     var link = $('<a>' , {
         text: 'Create new credential',
         title: 'Create new credential',
         href: '#'
     });
-
     link.click(openNewCredentialView);
-
     createCredmenuitem.append(link);
     $('#navElements').append(createCredmenuitem);
+
+
+    var createSettingsmenuitem = $('<li>');
+    var link = $('<a>' , {
+        text: 'Settings',
+        title: 'Settings',
+        href: '#'
+    });
+    link.click(openSettingsView);
+    createSettingsmenuitem.append(link);
+    $('#navElements').append(createSettingsmenuitem);
+
 
     var signoutmenuitem = $('<li>');
     link = $('<a>', {
@@ -43,16 +54,15 @@ createMenu = () =>
         title: 'Log out',
         href: '?'
     });
-
-
     link.click(function(){
         document.cookie = "usertoken=; path=/;";
         masterPass = null;
     });
-
     signoutmenuitem.append(link);
     $('#navElements').append(signoutmenuitem);
 }
+
+openSettingsView = () => $('#appContent').load("public/settings.html");
 
 openNewCredentialView = () => {
     if (masterPass == null || masterPass == "")
