@@ -3,17 +3,24 @@ let masterPass = null;
 let userToken = null;
 
 $(() => {
-    if (getCookie("usertoken") == '')
-    {
+    if (getCookie("usertoken") == '') {
         login();
-    }
-    else
-    {
+    } else {
         userToken = getCookie("usertoken");
-        
         createMenu();
         loadCreds();
     }
+
+
+
+    $('#homeLink').click((event) => {
+        event.preventDefault();
+        if (getCookie("usertoken") == '') {
+            login();
+        } else {
+            loadCreds();
+        }
+    });
     $('#helpPageLink').click((event) => {
         event.preventDefault();
         $('#appContent').load("public/help.html");
@@ -107,17 +114,32 @@ loadCreds = async () => {
 
 
 createCredentialOverview = (data) => {
-    let element =  $('<div>').addClass('overview');
+    let element =  $('<div>').addClass('overview').addClass('col');
+    let innerRow = $('<div>').addClass('row');
+    element.append(innerRow);
     for (let i = 0; i < data.length; i++) {
-        element.append(createCredentialOverviewElement(data[i]));
+        innerRow.append(createCredentialOverviewElement(data[i]));
     }
     $('#appContent').append(element);
 }
 
 createCredentialOverviewElement = (cred) => {
-    let element =  $('<div>').addClass('overviewElement');
+    let element =  $('<div>').addClass('overviewElement').addClass('col-lg-3');
     element.append($('<h4>').text(cred.credentialDescription));
     element.append($('<p>').addClass('usernameLabel').text('-[ ' + cred.username + ' ]-'));
+    
+    let link = $('<a>').text(cred.url);
+    element.append(link);
+
+    link.click((event) => {
+        event.preventDefault();
+        if (cred.url.includes("https://") || cred.url.includes("http://")) {
+            window.open(cred.url, '_blank');
+        } else {
+            window.open("https://" + cred.url, '_blank');
+        }
+        event.stopPropagation();
+    });
     
     element.click(function()
     {

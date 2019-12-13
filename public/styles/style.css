@@ -13,7 +13,7 @@ body {
     margin: 0;
 }
 
-.loginform, .helpContent, .registerform {
+/* .loginform, .helpContent, .registerform, */ #appContent {
     padding-top: 1em;
 }
 
@@ -30,10 +30,31 @@ body {
     padding: 0 10vw;
 }
 
+/* .overview {
+    display: flex;
+    gap: 10px;
+} */
+
 .overviewElement {
     padding: 1rem;
     margin-top: .25rem;
     margin-bottom: .25rem;
+    border: 1px solid #1B9CD8;
+    min-width: 250px;
+    margin-right: 5rem;
+}
+
+.overviewElement a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.overviewElement a, .overviewElement a:visited {
+    color: white;
+}
+
+.overviewElement:hover {
+    cursor: pointer;
 }
 
 .usernameLabel {
@@ -48,9 +69,11 @@ body {
 
 /* Sidebar */
 #sidebar {
-    min-width: 250px;
-    /* max-width: 20vw; */
     padding-left: 10vw;
+}
+
+#navElements {
+    min-width: 250px;
 }
 
 a[data-toggle="collapse"] {

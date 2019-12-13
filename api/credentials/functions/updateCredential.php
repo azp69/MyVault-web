@@ -15,11 +15,11 @@ function updateCredential($usertoken, $data) {
     }
     if (!isset($data)) {
         return json_encode(
-            array('message' => 400));
+            array('message' => 409));
     }
     if (!isset($data['id']) || is_nan($data['id'])) {
         return json_encode(
-            array('message' => 400));
+            array('message' => 409));
     }
     
     try {
